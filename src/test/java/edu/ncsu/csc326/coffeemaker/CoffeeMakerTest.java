@@ -18,7 +18,7 @@
  */
 package edu.ncsu.csc326.coffeemaker;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -121,6 +121,19 @@ public class CoffeeMakerTest {
 	}
 	
 	/**
+	 * Given a coffee maker with the default inventory
+	 * When we add inventory with positive number
+	 * Then we can add in all item.
+	 * 
+	 * @throws InventoryException  if there was an error parsing the quanity
+	 * 		to a positive integer.
+	 */
+	@Test
+	public void testAddInventoryAllPositive() throws InventoryException {
+		coffeeMaker.addInventory("4","7","3","9");
+	}
+
+	/**
 	 * Given a coffee maker with one valid recipe
 	 * When we make coffee, selecting the valid recipe and paying more than 
 	 * 		the coffee costs
@@ -131,5 +144,164 @@ public class CoffeeMakerTest {
 		coffeeMaker.addRecipe(recipe1);
 		assertEquals(25, coffeeMaker.makeCoffee(0, 75));
 	}
+
+
+	/**
+	 * Given a coffee maker with one valid recipe
+	 * When we make coffee, selecting the valid recipe and paying lass than 
+	 * the coffee costs
+	 * Then it will give your money back with out any change.
+	 */
+	@Test
+	public void testMakeCoffeeWithLackMoney() {
+		coffeeMaker.addRecipe(recipe1);
+		assertEquals(30, coffeeMaker.makeCoffee(0, 30));
+		assertEquals(-30, coffeeMaker.makeCoffee(0, -30));
+	}
+
+	/**
+	 * Given a coffee maker with new recipe but only three recipes 
+	 * may be added to the CoffeeMaker.
+	 */
+	@Test
+	public void testAddRecipe() {
+		assertTrue(coffeeMaker.addRecipe(recipe1));
+		assertTrue(coffeeMaker.addRecipe(recipe2));
+		assertTrue(coffeeMaker.addRecipe(recipe3));
+		assertEquals(false,coffeeMaker.addRecipe(recipe4));
+	}
+
+	/**
+	 * Given a coffee maker with new recipe but we cant added 
+	 * the same recipes to the CoffeeMaker.
+	 */
+	@Test
+	public void testAddSameRecipe() {
+		assertTrue(coffeeMaker.addRecipe(recipe1));
+		assertEquals(false,coffeeMaker.addRecipe(recipe1));
+		Recipe recipe5 = new Recipe();
+		recipe5.setName("Coffee");
+		assertEquals(false,coffeeMaker.addRecipe(recipe5));
+	}
+
+	/**
+	 * Given a coffee maker may be deleted any recipes 
+	 * from the recipes in CoffeeMaker.
+	 */
+	@Test
+	public void testDeleteRecipe() {
+		coffeeMaker.addRecipe(recipe4);
+		assertEquals("Hot Chocolate", coffeeMaker.deleteRecipe(0));
+		assertEquals(null, coffeeMaker.getRecipes()[0]);
+	}
+
+	/**
+	 * Given a coffee maker may be deleted any recipes 
+	 * from the recipes in CoffeeMaker
+	 * it will return Null when you delete recipe doesn't have
+	 * in recipe.
+	 */
+	@Test
+	public void testDeleteNullRecipe() {
+		coffeeMaker.addRecipe(recipe4);
+		assertEquals(null, coffeeMaker.deleteRecipe(1));
+	}
+
+	/**
+	 *  Given a coffee maker may be edited any recipes 
+	 * from the recipe in CoffeeMaker but any recipes that
+	 * edited it will not change name of recipe.
+	 */
+	@Test
+	public void testEditRecipe() {
+		coffeeMaker.addRecipe(recipe1);
+		coffeeMaker.addRecipe(recipe2);
+		assertEquals("Coffee", coffeeMaker.editRecipe(0,recipe2));
+		assertEquals("Coffee", coffeeMaker.getRecipes()[0].getName());
+		assertEquals("Mocha", coffeeMaker.getRecipes()[1].getName());
+	}
+
+	/**
+	 * Given a coffee maker may be edited any recipes 
+	 * from the recipe in CoffeeMaker but any recipes that
+	 * edited it will not change name of recipe.
+	 * it will return Null when you edit recipe doesn't have
+	 * in recipe.
+	 */
+	@Test
+	public void testEditNullRecipe() {
+		assertEquals(null, coffeeMaker.editRecipe(0,recipe1));
+	}
+
+	/**
+	 * Given a coffee maker can choose any recpies in list 
+	 * of recpies in coffee maker
+	 */
+	@Test
+	public void testGetRecipes() {
+		coffeeMaker.addRecipe(recipe1);
+		coffeeMaker.addRecipe(recipe2);
+		assertEquals(recipe1, coffeeMaker.getRecipes()[0]);
+		assertEquals(recipe2, coffeeMaker.getRecipes()[1]);
+		assertEquals("Coffee", coffeeMaker.getRecipes()[0].getName());
+		assertEquals("Mocha", coffeeMaker.getRecipes()[1].getName());
+		assertEquals(0, coffeeMaker.getRecipes()[0].getAmtChocolate());
+		assertEquals(3, coffeeMaker.getRecipes()[0].getAmtCoffee());
+		assertEquals(1, coffeeMaker.getRecipes()[0].getAmtMilk());
+		assertEquals(1, coffeeMaker.getRecipes()[0].getAmtSugar());
+		assertEquals(50, coffeeMaker.getRecipes()[0].getPrice());
+	}
+
+	/**
+	 * Given a coffee maker can choose any recpies in list 
+	 * of recpies in coffee maker
+	 * it will return Null when you choose any recipes doesn't have
+	 * in recipe.
+	 */
+	@Test
+	public void testGetNullRecipes() {
+		assertEquals(null, coffeeMaker.getRecipes()[0]);
+	}
+
+	/**
+	 * Given a coffee maker can check your The units of each item in the
+	 * inventory are displayed  
+	 */
+	@Test
+	public void testCheckInventory() {
+		String temp = "Coffee: 15\nMilk: 15\nSugar: 15\nChocolate: 15\n";
+		assertEquals(temp, coffeeMaker.checkInventory());
+	}
+
+	/**
+	 * Given a coffee maker can check your The units of each item in the
+	 * inventory are displayed 
+	 * when any item in inventory get added  The units of each item need in the
+	 * inventory need to change.
+	 */
+	@Test
+	public void testCheckInventoryAfterAdd() throws InventoryException {
+		coffeeMaker.addInventory("1","2","0","4");
+		String temp = "Coffee: 16\nMilk: 17\nSugar: 15\nChocolate: 19\n";
+		assertEquals(temp, coffeeMaker.checkInventory());
+	}
+
+	/**
+	 * Given a coffee maker can check your The units of each item in the
+	 * inventory are displayed 
+	 * when any item in inventory get used when make the coffee 
+	 * The units of each item need in the
+	 * inventory need to change or reduce.
+	 */
+	@Test
+	public void testCheckInventoryAfterMakeCoffee() {
+		coffeeMaker.addRecipe(recipe1);
+		assertEquals(100, coffeeMaker.makeCoffee(0, 150));
+		String temp = "Coffee: 12\nMilk: 14\nSugar: 14\nChocolate: 15\n";
+		assertEquals(temp, coffeeMaker.checkInventory());
+		assertEquals(30, coffeeMaker.makeCoffee(0, 30));
+		assertEquals(temp, coffeeMaker.checkInventory());
+	}
+
 
 }
