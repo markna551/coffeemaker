@@ -1,15 +1,17 @@
-CoffeeMaker JUnit - Buggy Version
+CoffeeMaker 
 =================================
-In this assignment, you'll get some practice at building effective unit tests on a slightly larger example of a coffee maker. The coffee maker allows you to set up recipes, add ingredients, and to make one of several beverages, provided that you insert enough money. It is an often-used pedagogical example from our colleague [Laurie Williams](https://www.csc.ncsu.edu/people/lawilli3) at NC State University. A list of the user stories (requirements) and use cases are included in the `Requirements-CoffeeMaker.pdf` file.
+The Computer Science department at NCSU has a new building on Centennial Campus. We all know that computer scientists love caffeine,
+so the CSC department is planning on installing a CoffeeMaker in a lounge across the hall from the 24-hour computer lab. Our job is to test
+and model the functionality of the CoffeeMaker. We are only working with the logic code behind the hardware, so only a command line
+interface is used for manual testing. Here is a partial listing of requirements for the CoffeeMaker system. Use this as a reference when
+completing the CSC 326 tutorials.
 
-Below, are instructions to get you started.  We describe the prerequisites and provide instructions for building and running the tests.  We also include information about the directory structure provided.
+More detail
+=================================
+[List of Test Cases](https://github.com/markna551/coffeemaker/wiki/List-of-Test-Cases)
 
-### Deliverables
-Your task is to create a file, `CoffeeMakerTest.java`, which properly tests the `CoffeeMaker` class to ensure it is working properly. 
 
-Inside the project, you will find the functional code, a couple of unit tests to get you started. The goal is to construct a sufficient number of unit tests to find most of bugs in the "buggy" version of the coffee maker that is included. You should be able to detect at least 5 bugs in the code using your unit tests.
-
-This exercise focuses entirely on testing.  You are NOT to fix the coffee maker.  You are only to develop tests to exercise the functionality as described in the requirements.
+[Requirement Traceability Matrix](https://github.com/markna551/coffeemaker/wiki/Requirement-Traceability-Matrix)
 
 
 Package Prerequisites
