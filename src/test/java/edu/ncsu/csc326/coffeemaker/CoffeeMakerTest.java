@@ -147,7 +147,7 @@ public class CoffeeMakerTest {
 	 * @throws InventoryException  if there was an error parsing the quanity
 	 * 		to a positive integer.
 	 */
-	@Test
+	@Test(expected = InventoryException.class)
 	public void testAddNegativeChocolate() throws InventoryException {
 	
 		coffeeMaker.addInventory("1","2","0","-4");
@@ -161,7 +161,7 @@ public class CoffeeMakerTest {
 	 * @throws InventoryException  if there was an error parsing the quanity
 	 * 		to a positive integer.
 	 */
-	@Test
+	@Test(expected = InventoryException.class)
 	public void testAddNegativeCoffee() throws InventoryException {
 		coffeeMaker.addInventory("-1","2","0","4");
 	}
@@ -174,7 +174,7 @@ public class CoffeeMakerTest {
 	 * @throws InventoryException  if there was an error parsing the quanity
 	 * 		to a positive integer.
 	 */
-	@Test
+	@Test(expected = InventoryException.class)
 	public void testAddNegativeMilk() throws InventoryException {
 		coffeeMaker.addInventory("1","-2","0","4");
 	}
@@ -187,7 +187,7 @@ public class CoffeeMakerTest {
 	 * @throws InventoryException  if there was an error parsing the quanity
 	 * 		to a positive integer.
 	 */
-	@Test
+	@Test(expected = InventoryException.class)
 	public void testAddStringChocolate() throws InventoryException {
 		coffeeMaker.addInventory("1","2","0","a");
 	}
@@ -200,7 +200,7 @@ public class CoffeeMakerTest {
 	 * @throws InventoryException  if there was an error parsing the quanity
 	 * 		to a positive integer.
 	 */
-	@Test
+	@Test(expected = InventoryException.class)
 	public void testAddStringCoffee() throws InventoryException {
 		coffeeMaker.addInventory("a","2","0","4");
 	}
@@ -213,7 +213,7 @@ public class CoffeeMakerTest {
 	 * @throws InventoryException  if there was an error parsing the quanity
 	 * 		to a positive integer.
 	 */
-	@Test
+	@Test(expected = InventoryException.class)
 	public void testAddStringMilk()  throws InventoryException {
 		coffeeMaker.addInventory("1","a","0","4");
 	}
@@ -226,7 +226,7 @@ public class CoffeeMakerTest {
 	 * @throws InventoryException  if there was an error parsing the quanity
 	 * 		to a positive integer.
 	 */
-	@Test
+	@Test(expected = InventoryException.class)
 	public void testAddStringSugar() throws InventoryException {
 		coffeeMaker.addInventory("1","2","a","4");
 	}
