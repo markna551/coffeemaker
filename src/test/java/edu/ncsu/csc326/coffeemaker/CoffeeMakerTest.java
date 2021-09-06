@@ -307,7 +307,7 @@ public class CoffeeMakerTest {
 	@Test
 	public void testMakeMilkOutOfInventory() throws RecipeException {
 		recipe5 = new Recipe();
-		makeRecipe(recipe5,"Milky","16","0","0","0","200");
+		makeRecipe(recipe5,"Milky","0","0","16","0","200");
 		coffeeMaker.addRecipe(recipe5);
 		assertEquals(300, coffeeMaker.makeCoffee(0, 300));
 	}
