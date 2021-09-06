@@ -13,6 +13,7 @@ More detail
 
 [Requirement Traceability Matrix](https://github.com/markna551/coffeemaker/wiki/Requirement-Traceability-Matrix)
 
+[JaCoCo Test Result](https://github.com/markna551/coffeemaker/wiki/JaCoCo-test-result)
 
 Package Prerequisites
 ---------------------
