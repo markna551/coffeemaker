@@ -19,6 +19,7 @@
 package edu.ncsu.csc326.coffeemaker;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,13 +38,21 @@ public class CoffeeMakerTest {
 	 * The object under test.
 	 */
 	private CoffeeMaker coffeeMaker;
-	
+	private CoffeeMaker coffeeMakerMockObj;
+	private Inventory inventory;
+	private RecipeBook recipeBook;
+
 	// Sample recipes to use in testing.
+	private Recipe[] recipeList;
 	private Recipe recipe1;
 	private Recipe recipe2;
 	private Recipe recipe3;
 	private Recipe recipe4;
 	private Recipe recipe5;
+	// private Recipe recipe6;
+	// private Recipe recipe7;
+	
+	
 	/**
 	 * Initializes some recipes to test with and the {@link CoffeeMaker} 
 	 * object we wish to test.
@@ -53,7 +62,10 @@ public class CoffeeMakerTest {
 	 */
 	@Before
 	public void setUp() throws RecipeException {
+		inventory = new Inventory();
 		coffeeMaker = new CoffeeMaker();
+		recipeBook = mock(RecipeBook.class);
+		coffeeMakerMockObj = new CoffeeMaker(recipeBook, inventory);
 		
 		//Set up for r1
 		recipe1 = new Recipe();
@@ -70,7 +82,22 @@ public class CoffeeMakerTest {
 		//Set up for r4
 		recipe4 = new Recipe();
 		makeRecipe(recipe4,"Hot Chocolate","4","0","1","1","65");
-	
+		
+		recipeList = new Recipe[] {recipe1, recipe2, recipe3, recipe4, null};
+
+		// //Set up for r5
+		// recipe5 = new Recipe();
+		// makeRecipe(recipe5,"Choco","0","16","0","0","200");
+
+		// //Set up for r6
+		// recipe6 = new Recipe();
+		// makeRecipe(recipe6,"Milky","0","0","16","0","200");
+
+		// //Set up for r7
+		// recipe7 = new Recipe();
+		// makeRecipe(recipe7,"Suga","0","0","0","16","200");
+
+
 	}
 	
 
@@ -330,6 +357,56 @@ public class CoffeeMakerTest {
 
 
 	/**
+	 * Given a mock coffee maker with one valid recipe
+	 * When we make mock coffee, selecting the valid recipe and paying more than 
+	 * 		the coffee costs
+	 * Then we get the correct change back.
+	 */
+	@Test
+	public void testMakeMockCoffee() {
+		when(coffeeMakerMockObj.getRecipes()).thenReturn(recipeList);
+		assertEquals(25, coffeeMakerMockObj.makeCoffee(0, 75));
+	}
+
+	/**
+	 * Given a mock coffee maker with one valid recipe
+	 * When we make mock coffee, selecting the valid recipe and paying lass than 
+	 * the coffee costs
+	 * Then it will give your money back with out any change.
+	 */
+	@Test
+	public void testMakeMockCoffeeWithLackMoney() {
+		when(coffeeMakerMockObj.getRecipes()).thenReturn(recipeList);
+		assertEquals(30, coffeeMakerMockObj.makeCoffee(0, 30));
+		assertEquals(-30, coffeeMakerMockObj.makeCoffee(0, -30));
+	}
+
+	/**
+	 * Given a mock coffee maker with null recipe
+	 * it will give your money back with out any change.
+	 */
+	@Test
+	public void testMakeNullMockCoffee() {
+		when(coffeeMakerMockObj.getRecipes()).thenReturn(recipeList);
+		assertEquals(300, coffeeMakerMockObj.makeCoffee(4, 300));
+	}
+
+
+	/**
+	 * Given a mock coffee maker with one valid recipe
+	 * When we make mock coffee but coffee out of inventory
+	 * Then it will give your money back with out any change.
+	 * 
+	 * @throws RecipeException  if there was an error parsing the ingredient 
+	 * 		amount when setting up the recipe.
+	 */
+	@Test
+	public void testMakeMockCoffeeOutOfInventory() throws RecipeException {
+		when(coffeeMakerMockObj.getRecipes()).thenReturn(recipeList);
+		assertEquals(300, coffeeMaker.makeCoffee(1, 300));
+	}
+
+	/**
 	 * Given a coffee maker with new recipe but only three recipes 
 	 * may be added to the CoffeeMaker.
 	 */
@@ -476,9 +553,4 @@ public class CoffeeMakerTest {
 		assertEquals(30, coffeeMaker.makeCoffee(0, 30));
 		assertEquals(temp, coffeeMaker.checkInventory());
 	}
-
-
-
-
-	
 }
